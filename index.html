@@ -1,63 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Bucharest Metro Roulette</title>
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-
-    #wheel {
-      margin: auto;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-    }
-
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      transform-origin: 100% 100%;
-    }
-
-    .segment div {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -100%;
-      left: -100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding-right: 10px;
-      box-sizing: border-box;
-    }
-
-    #spin {
-      margin-top: 20px;
-      padding: 10px 30px;
-      font-size: 1.2em;
-    }
-
-    #pointer {
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border: 15px solid transparent;
-      border-top: 30px solid #e74c3c;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
+    body { font-family: sans-serif; text-align: center; background:#f4f4f4; padding:20px;}
+    #wheel {margin: auto; width:500px; height:500px; border-radius:50%; position:relative; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;}
+    .segment {position:absolute; width:50%; height:50%; transform-origin:100% 100%; }
+    .segment div {position:absolute; width:200%; height:200%; top:-100%; left:-100%; display:flex; justify-content:flex-end; align-items:center; padding-right:10px; box-sizing:border-box; }
+    #spin {margin-top:20px; padding:10px 30px; font-size:1.2em;}
+    #pointer {position:absolute; top:50%; left:50%; width:0; height:0; border:15px solid transparent; border-top:30px solid #e74c3c; transform:translate(-50%, -100%);}
   </style>
 </head>
 <body>
@@ -66,38 +18,53 @@
   <div id="pointer"></div>
   <button id="spin">Spin</button>
   <p id="result"></p>
-
   <script>
-    const stations = ['Unirii', 'Victoriei', 'Tineretului', 'Aviatorilor', 'Universitate', 'Eroilor'];
+    const stations = [
+      "Dristor 2","Dristor 1","Mihai Bravu","Timpuri Noi","Piața Unirii 1","Izvor",
+      "Eroilor","Grozăvești","Politehnica","Lujerului","Gorjului","Păcii","Preciziei",
+      "Pipera","Aurel Vlaicu","Aviatorilor","Piața Victoriei 1","Piața Romană","Universitate",
+      "Piața Unirii 2","Tineretului","Eroii Revoluției","Constantin Brâncoveanu","Piața Sudului",
+      "Apărătorii Patriei","IMGB","Berceni","Tudor Arghezi","Nicolae Grigorescu","1 Decembrie 1918",
+      "Nicolae Teclu","Anghel Saligny","Gara de Nord 2","Basarab 2","Grivița","1 Mai",
+      "Jiului","Parc Bazilescu","Laminorului","Străulești","Academia Militară","Orizont",
+      "Favorit","Drumul Taberei 34","Raul Doamnei","Valea Ialomiței","Tudor Vladimirescu",
+      "Constantin Brâncuși","Romancierilor"
+    ];
+
     const wheel = document.getElementById('wheel');
+    const segCount = stations.length;
+    const angle = 360 / segCount;
+    stations.forEach((name, i) => {
+      const seg = document.createElement('div');
+      seg.className = 'segment';
+      seg.style.transform = `rotate(${i*angle}deg)`;
+      const inner = document.createElement('div');
+      inner.style.transform = `rotate(${angle/2}deg) scale(0.9)`;
+      inner.textContent = name;
+      inner.style.background = i % 2 ? '#ecf0f1' : '#bdc3c7';
+      inner.style.fontSize = '10px';
+      inner.style.writingMode = 'vertical-rl';
 
-    const angle = 360 / stations.length;
-
-    stations.forEach((station, i) => {
-      const segment = document.createElement('div');
-      segment.className = 'segment';
-      segment.style.transform = `rotate(${i * angle}deg)`;
-
-      const label = document.createElement('div');
-      label.textContent = station;
-      label.style.background = `hsl(${i * angle}, 70%, 70%)`;
-      label.style.transform = `rotate(${angle / 2}deg)`;
-
-      segment.appendChild(label);
-      wheel.appendChild(segment);
+      seg.appendChild(inner);
+      wheel.appendChild(seg);
     });
 
+    let spinning = false;
     document.getElementById('spin').addEventListener('click', () => {
-      const rotation = Math.floor(Math.random() * 360 + 720); // Spin 2+ times
-      wheel.style.transition = 'transform 4s ease-out';
-      wheel.style.transform = `rotate(${rotation}deg)`;
-
-      // Get winning station
-      const normalized = rotation % 360;
-      const index = Math.floor(((360 - normalized + angle / 2) % 360) / angle);
-      setTimeout(() => {
-        document.getElementById('result').textContent = `Your station is: ${stations[index]}`;
-      }, 4000);
+      if (spinning) return;
+      spinning = true;
+      document.getElementById('result').textContent = '';
+      const fullSpins = 5;
+      const randAngle = Math.random()*360;
+      const total = fullSpins*360 + randAngle;
+      wheel.style.transition = 'transform 5s cubic-bezier(.33,1,.68,1)';
+      wheel.style.transform = `rotate(${total}deg)`;
+      wheel.addEventListener('transitionend', () => {
+        const landedIndex = Math.floor(((360 - (randAngle % 360)) / angle)) % segCount;
+        const selected = stations[landedIndex];
+        document.getElementById('result').textContent = '→ ' + selected + ' ←';
+        spinning = false;
+      }, { once: true });
     });
   </script>
 </body>
