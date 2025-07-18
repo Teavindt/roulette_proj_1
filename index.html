@@ -43,20 +43,18 @@
   inner.textContent = name;
 
   // Style text clearly
-  label.style.background = i % 2 ? '#ecf0f1' : '#bdc3c7';
-  label.style.color = '#000';
-  label.style.fontSize = '9px';
-  label.style.fontWeight = 'bold';
-  label.style.position = 'absolute';
-  label.style.top = '50%';
-  label.style.left = '50%';
-  label.style.transform = `rotate(${angle / 2}deg) translateY(-220px) rotate(-${angle / 2}deg)`;
-  label.style.transformOrigin = 'center';
-  label.style.whiteSpace = 'nowrap';
-  label.style.pointerEvents = 'none';
+  inner.style.background = i % 2 ? '#ecf0f1' : '#bdc3c7';
+  inner.style.color = '#000';
+  inner.style.fontSize = '9px';
+  inner.style.fontWeight = 'bold';
+  inner.style.textAlign = 'right';
+  inner.style.transform = `rotate(${angle / 2}deg) translateY(-180px)`;
+  inner.style.transformOrigin = 'center';
+  inner.style.writingMode = 'horizontal-tb';
+  inner.style.textShadow = '1px 1px 2px white';
 
-  segment.appendChild(label);
-  wheel.appendChild(segment);
+  seg.appendChild(inner);
+  wheel.appendChild(seg);
 });
   </script>
 </body>
