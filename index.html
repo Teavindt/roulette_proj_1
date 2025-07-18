@@ -57,6 +57,26 @@
   segment.appendChild(label);
   wheel.appendChild(segment);
 });
+    let spinning = false;
+document.getElementById('spin').addEventListener('click', () => {
+  if (spinning) return;
+  spinning = true;
+  document.getElementById('result').textContent = '';
+
+  const fullSpins = 5;
+  const randAngle = Math.random() * 360;
+  const total = fullSpins * 360 + randAngle;
+
+  wheel.style.transition = 'transform 5s cubic-bezier(.33,1,.68,1)';
+  wheel.style.transform = `rotate(${total}deg)`;
+
+  wheel.addEventListener('transitionend', () => {
+    const normalized = total % 360;
+    const landedIndex = Math.floor(((360 - normalized + angle / 2) % 360) / angle);
+    document.getElementById('result').textContent = '→ ' + stations[landedIndex] + ' ←';
+    spinning = false;
+  }, { once: true });
+});
   </script>
 </body>
 </html>
