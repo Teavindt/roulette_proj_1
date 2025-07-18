@@ -2,149 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Bucharest Metro Roulette</title>
+  <title>Metro Roulette</title>
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       background: #f4f4f4;
-      padding: 20px;
+      margin: 0;
+      padding: 2em;
     }
-
     #wheel-container {
       position: relative;
-      width: 500px;
-      height: 500px;
-      margin: auto;
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
     }
-
     #wheel {
-      width: 500px;
-      height: 500px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       position: relative;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      transition: transform 5s cubic-bezier(.33, 1, .68, 1);
+      transition: transform 5s cubic-bezier(.33,1,.68,1);
     }
-
     .segment {
       position: absolute;
       width: 50%;
       height: 50%;
       top: 50%;
       left: 50%;
-      transform-origin: 0% 0%;
+      transform-origin: 0 0;
     }
-
     .segment span {
       position: absolute;
-      transform-origin: 0 0;
-      transform: translate(0, -50%) rotate(90deg);
-      left: 100%;
-      top: 50%;
+      top: 0;
+      left: 0;
+      transform-origin: 0 100%;
+      transform: translate(0, -100%) rotate(90deg);
       white-space: nowrap;
       font-size: 8px;
-      font-weight: bold;
-      color: #000;
+      padding: 2px 4px;
     }
-
     #pointer {
       position: absolute;
-      top: 0;
+      top: -15px;
       left: 50%;
-      width: 0;
-      height: 0;
       border: 15px solid transparent;
-      border-bottom: 30px solid #e74c3c;
+      border-bottom-color: #e74c3c;
       transform: translateX(-50%);
-      z-index: 10;
     }
-
-    #spin {
-      margin-top: 20px;
-      padding: 10px 30px;
-      font-size: 1.2em;
+    button {
+      margin-top: 1em;
+      padding: .5em 1.5em;
+      font-size: 1em;
     }
-
     #result {
-      font-size: 1.2em;
-      margin-top: 20px;
+      margin-top: .5em;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>Bucharest Metro Roulette 🎡</h1>
+  <h1>Metro Roulette 🎡</h1>
   <div id="wheel-container">
     <div id="wheel"></div>
     <div id="pointer"></div>
   </div>
   <button id="spin">Spin</button>
-  <p id="result"></p>
+  <div id="result"></div>
 
   <script>
     const stations = [
-      "Dristor 2","Dristor 1","Mihai Bravu","Timpuri Noi","Piața Unirii 1","Izvor",
-      "Eroilor","Grozăvești","Politehnica","Lujerului","Gorjului","Păcii","Preciziei",
-      "Pipera","Aurel Vlaicu","Aviatorilor","Piața Victoriei 1","Piața Romană","Universitate",
-      "Piața Unirii 2","Tineretului","Eroii Revoluției","Constantin Brâncoveanu","Piața Sudului",
-      "Apărătorii Patriei","IMGB","Berceni","Tudor Arghezi","Nicolae Grigorescu","1 Decembrie 1918",
-      "Nicolae Teclu","Anghel Saligny","Gara de Nord 2","Basarab 2","Grivița","1 Mai",
-      "Jiului","Parc Bazilescu","Laminorului","Străulești","Academia Militară","Orizont",
-      "Favorit","Drumul Taberei 34","Raul Doamnei","Valea Ialomiței","Tudor Vladimirescu",
-      "Constantin Brâncuși","Romancierilor"
+      "Dristor 2","Dristor 1","Mihai Bravu","Timpuri Noi","Unirii 1","Izvor",
+      "Eroilor","Grozăvești","Politehnica","Lujerului","Gorjului","Păcii",
+      "Preciziei","Pipera","Aurel Vlaicu","Aviatorilor","Victoriei 1",
+      "Romană","Universitate","Unirii 2","Tineretului","Eroii Revoluției",
+      "Brâncoveanu","Sudului","Apărătorii Patriei","IMGB","Berceni",
+      "Arghezi","Grigorescu","1 Decembrie","Teclu","Saligny","Gara de Nord 2",
+      "Basarab 2","Grivița","1 Mai","Jiului","Bazilescu","Laminorului",
+      "Străulești","Academia Militară","Orizont","Favorit","Taberei 34",
+      "Doamnei","Ialomiței","Vladimirescu","Brâncuși","Romancierilor"
     ];
-
-    const wheel = document.getElementById("wheel");
+    const wheel = document.getElementById('wheel');
     const segCount = stations.length;
     const angle = 360 / segCount;
 
-    // Create segments
-    stations.forEach((station, i) => {
-      const segment = document.createElement("div");
-      segment.className = "segment";
-      segment.style.transform = `rotate(${i * angle}deg)`;
+    // build wheel
+    stations.forEach((name,i) => {
+      const seg = document.createElement('div');
+      seg.className = 'segment';
+      seg.style.transform = `rotate(${i * angle}deg)`;
 
-      const label = document.createElement("span");
-      label.textContent = station;
-      label.style.background = i % 2 ? "#ecf0f1" : "#bdc3c7";
+      const lbl = document.createElement('span');
+      lbl.textContent = name;
+      lbl.style.color = '#000';
+      lbl.style.background = i%2 ? '#ecf0f1' : '#bdc3c7';
 
-      segment.appendChild(label);
-      wheel.appendChild(segment);
+      seg.appendChild(lbl);
+      wheel.appendChild(seg);
     });
 
     let spinning = false;
-
-    document.getElementById("spin").addEventListener("click", () => {
+    document.getElementById('spin').onclick = () => {
       if (spinning) return;
       spinning = true;
-      document.getElementById("result").textContent = "";
+      document.getElementById('result').textContent = '';
 
-      const fullSpins = 5;
-      const randAngle = Math.random() * 360;
-      const totalRotation = fullSpins * 360 + randAngle;
+      const rand = Math.random()*360;
+      const total = 5*360 + rand;
+      wheel.style.transition = 'none';
+      wheel.offsetHeight;           // force reflow
+      wheel.style.transition = '';  // back to CSS transition
+      wheel.style.transform = `rotate(${total}deg)`;
 
-      wheel.style.transition = "none";
-      wheel.offsetHeight; // Force reflow
-      wheel.style.transition = "transform 5s cubic-bezier(.33,1,.68,1)";
-      wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-      wheel.addEventListener(
-        "transitionend",
-        () => {
-          const normalized = totalRotation % 360;
-          const index = Math.floor(
-            ((360 - normalized + angle / 2) % 360) / angle
-          );
-          const selected = stations[index];
-          document.getElementById("result").textContent =
-            "→ " + selected + " ←";
-          spinning = false;
-        },
-        { once: true }
-      );
-    });
+      wheel.ontransitionend = () => {
+        const pick = Math.floor(((360 - rand + angle/2)%360)/angle);
+        document.getElementById('result').textContent = '→ '+stations[pick]+' ←';
+        spinning = false;
+      };
+    };
   </script>
 </body>
 </html>
