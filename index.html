@@ -35,26 +35,27 @@
     const segCount = stations.length;
     const angle = 360 / segCount;
     stations.forEach((name, i) => {
-  const seg = document.createElement('div');
-  seg.className = 'segment';
-  seg.style.transform = `rotate(${i * angle}deg)`;
+  const segment = document.createElement('div');
+  segment.className = 'segment';
+  segment.style.transform = `rotate(${i * angle}deg)`;
 
-  const inner = document.createElement('div');
-  inner.textContent = name;
+  const label = document.createElement('div');
+  label.textContent = name;
+  label.style.background = i % 2 ? '#ecf0f1' : '#bdc3c7';
+  label.style.color = '#000';
+  label.style.fontSize = '9px';
+  label.style.fontWeight = 'bold';
+  label.style.position = 'absolute';
+  label.style.width = '100%';
+  label.style.height = '100%';
+  label.style.display = 'flex';
+  label.style.alignItems = 'center';
+  label.style.justifyContent = 'flex-end';
+  label.style.paddingRight = '10px';
+  label.style.transform = `rotate(${angle / 2}deg)`;
 
-  // Style text clearly
-  inner.style.background = i % 2 ? '#ecf0f1' : '#bdc3c7';
-  inner.style.color = '#000';
-  inner.style.fontSize = '9px';
-  inner.style.fontWeight = 'bold';
-  inner.style.textAlign = 'right';
-  inner.style.transform = `rotate(${angle / 2}deg) translateY(-180px)`;
-  inner.style.transformOrigin = 'center';
-  inner.style.writingMode = 'horizontal-tb';
-  inner.style.textShadow = '1px 1px 2px white';
-
-  seg.appendChild(inner);
-  wheel.appendChild(seg);
+  segment.appendChild(label);
+  wheel.appendChild(segment);
 });
   </script>
 </body>
