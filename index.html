@@ -1,15 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Bucharest Metro Roulette</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background:#f4f4f4; padding:20px;}
-    #wheel {margin: auto; width:500px; height:500px; border-radius:50%; position:relative; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;}
-    .segment {position:absolute; width:50%; height:50%; transform-origin:100% 100%; }
-    .segment div {position:absolute; width:200%; height:200%; top:-100%; left:-100%; display:flex; justify-content:flex-end; align-items:center; padding-right:10px; box-sizing:border-box; }
-    #spin {margin-top:20px; padding:10px 30px; font-size:1.2em;}
-    #pointer {position:absolute; top:50%; left:50%; width:0; height:0; border:15px solid transparent; border-top:30px solid #e74c3c; transform:translate(-50%, -100%);}
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    #wheel {
+      margin: auto;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      transform-origin: 100% 100%;
+    }
+
+    .segment div {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -100%;
+      left: -100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 10px;
+      box-sizing: border-box;
+    }
+
+    #spin {
+      margin-top: 20px;
+      padding: 10px 30px;
+      font-size: 1.2em;
+    }
+
+    #pointer {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border: 15px solid transparent;
+      border-top: 30px solid #e74c3c;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -24,7 +72,7 @@
       "Eroilor","Grozăvești","Politehnica","Lujerului","Gorjului","Păcii","Preciziei",
       "Pipera","Aurel Vlaicu","Aviatorilor","Piața Victoriei 1","Piața Romană","Universitate",
       "Piața Unirii 2","Tineretului","Eroii Revoluției","Constantin Brâncoveanu","Piața Sudului",
-      "Apărătorii Patriei","IMGB","Berceni","Nicolae Grigorescu","1 Decembrie 1918",
+      "Apărătorii Patriei","IMGB","Berceni","Tudor Arghezi","Nicolae Grigorescu","1 Decembrie 1918",
       "Nicolae Teclu","Anghel Saligny","Gara de Nord 2","Basarab 2","Grivița","1 Mai",
       "Jiului","Parc Bazilescu","Laminorului","Străulești","Academia Militară","Orizont",
       "Favorit","Drumul Taberei 34","Raul Doamnei","Valea Ialomiței","Tudor Vladimirescu",
