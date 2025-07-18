@@ -106,7 +106,7 @@
       const text = document.createElement('div');
       text.className = 'label';
       text.textContent = label;
-      text.style.transform = `rotate(${anglePerSeg / 2}deg) translateY(-160px)`;
+      text.style.transform = `rotate(${i * anglePerSeg + anglePerSeg / 2}deg) translateY(-160px)`;
 
       seg.appendChild(text);
       wheel.appendChild(seg);
